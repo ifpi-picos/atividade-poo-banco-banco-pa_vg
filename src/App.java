@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class App {
     //static List<Conta> contas = new ArrayList<>();
     //static List<Cliente> clientes = new ArrayList<>();
@@ -10,20 +12,20 @@ public class App {
         opcoesIniciais.add(2);
         opcoesIniciais.add(3);
 
-        int opcaoInicial = 1;
-        while (opcoesIniciais.get(opcaoInicial) != 3) {
-            opcaoInicial = exibirMenuInicial(opcoesIniciais);
-            if (opcoesIniciais.get(opcaoInicial) == 1) {
-
+        int opcaoSelecionada = 1;
+        while (opcoesIniciais.get(opcaoSelecionada) != 3) {
+            opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
+            if (opcoesIniciais.get(opcaoSelecionada) == 1) {
+                
             }
         }
     }
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
-        return 0;
+        Object[] opcoesArray = opcoesIniciais.toArray();
+        int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
+        "1 - Criar conta\n2 - Login\n3 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        return opcaoSelecionada;
     }
-
-
-    //private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
 
 }
 

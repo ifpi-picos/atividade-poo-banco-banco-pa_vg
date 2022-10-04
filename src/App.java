@@ -3,10 +3,14 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+
+
 public class App {
     //static List<Conta> contas = new ArrayList<>();
     //static List<Cliente> clientes = new ArrayList<>();
     public static void main(String[] args) throws Exception {
+
+
         List<Integer> opcoesIniciais = new ArrayList<>();
         opcoesIniciais.add(1);
         opcoesIniciais.add(2);
@@ -15,7 +19,12 @@ public class App {
         int opcaoSelecionada = 1;
         while (opcoesIniciais.get(opcaoSelecionada) != 3) {
             opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
-            if (opcoesIniciais.get(opcaoSelecionada) == 1) {
+
+            if (opcoesIniciais.get(opcaoSelecionada) == 2){
+                exibirMenuConta();
+
+            }
+            else if (opcoesIniciais.get(opcaoSelecionada) == 1) {
                 
             }
         }
@@ -26,7 +35,10 @@ public class App {
         "1 - Criar conta\n2 - Login\n3 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
         return opcaoSelecionada;
     }
-
+    private static void exibirMenuConta(){
+        String numeroConta = JOptionPane.showInputDialog("Informe o numero da conta: ");
+        String idCliente = JOptionPane.showInputDialog("Informe seu código único: ");
+    }
 }
 
 

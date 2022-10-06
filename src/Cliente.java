@@ -2,10 +2,17 @@ import java.util.Date;
 
 public class Cliente {
     private String nome;
-    private int cpf;
+    private long cpf;
     private int idCliente;
     private Date dataNascimento;
 
+
+    public Cliente(String nome, long cpf, int idCliente, Date dataNascimento){
+        setNome(nome);
+        setCpf(cpf);
+        setIdCliente(idCliente);
+        setDataNascimento(dataNascimento);
+    }
 
     public String getNome() {
         return nome;
@@ -14,11 +21,12 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public int getCPF() {
+    public long getCpf() {
         return cpf;
     }
-    public void setCpf(int cpf) {
-        cpf = cpf;
+
+    public void setCpf(long cpf) {
+        this.cpf = cpf;
     }
 
     public int getIdCliente() {

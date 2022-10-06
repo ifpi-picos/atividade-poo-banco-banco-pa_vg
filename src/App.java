@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class App {
     //static List<Conta> contas = new ArrayList<>();
-    //static List<Cliente> clientes = new ArrayList<>();
+    static List<Cliente> clientes = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
 
@@ -40,7 +40,11 @@ public class App {
         String idCliente = JOptionPane.showInputDialog("Informe seu código único: ");
     }
     private static void criarConta() {
-        
+        String nomeCliente = JOptionPane.showInputDialog("Nome: ");
+        String cpfCliente = JOptionPane.showInputDialog("CPF: ");
+        int idCliente = 0;
+        Cliente novoCliente = new Cliente(nomeCliente, Long.parseLong(cpfCliente), idCliente, null);
+        clientes.add(novoCliente);
     }
 }
 

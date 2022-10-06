@@ -1,10 +1,12 @@
 import java.util.Date;
+import java.util.List;
 
 public class Cliente {
     private String nome;
     private long cpf;
     private int idCliente;
     private Date dataNascimento;
+    private List<Conta> contas;
 
 
     public Cliente(String nome, long cpf, int idCliente, Date dataNascimento){
@@ -12,6 +14,7 @@ public class Cliente {
         setCpf(cpf);
         setIdCliente(idCliente);
         setDataNascimento(dataNascimento);
+
     }
 
     public String getNome() {

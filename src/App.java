@@ -20,12 +20,12 @@ public class App {
         while (opcoesIniciais.get(opcaoSelecionada) != 3) {
             opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
 
-            if (opcoesIniciais.get(opcaoSelecionada) == 2){
-                exibirMenuConta();
+            if (opcoesIniciais.get(opcaoSelecionada) == 1){
+                criarConta();
 
             }
-            else if (opcoesIniciais.get(opcaoSelecionada) == 1) {
-                
+            else if (opcoesIniciais.get(opcaoSelecionada) == 2) {
+                telaLogin();
             }
         }
     }
@@ -35,9 +35,12 @@ public class App {
         "1 - Criar conta\n2 - Login\n3 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
         return opcaoSelecionada;
     }
-    private static void exibirMenuConta(){
-        String numeroConta = JOptionPane.showInputDialog("Informe o numero da conta: ");
+    private static void telaLogin(){
+        String numeroConta = JOptionPane.showInputDialog("Número da conta: ");
         String idCliente = JOptionPane.showInputDialog("Informe seu código único: ");
+    }
+    private static void criarConta() {
+        
     }
 }
 

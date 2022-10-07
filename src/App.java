@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 public class App {
     //static List<Conta> contas = new ArrayList<>();
     static List<Cliente> clientes = new ArrayList<>();
+    static List<Integer> numerosId = new ArrayList<>();
     Random gerador = new Random();
     public static void main(String[] args) throws Exception {
 
@@ -17,28 +18,19 @@ public class App {
         opcoesIniciais.add(1);
         opcoesIniciais.add(2);
         opcoesIniciais.add(3);
+        opcoesIniciais.add(4);
 
         int opcaoSelecionada = 1;
-        while (opcoesIniciais.get(opcaoSelecionada) != 3) {
+        while (opcoesIniciais.get(opcaoSelecionada) != 4) {
             opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
 
             if (opcoesIniciais.get(opcaoSelecionada) == 1){
-                List<Integer> opcoesCliente = new ArrayList<>();
-                opcoesCliente.add(1);
-                opcoesCliente.add(2);
-
-                int opcaoCliente = exibirOpcaoCliente(opcoesCliente);
-                if (opcoesCliente.get(opcaoCliente) == 1) {
-                    cadastrarCliente();
-                }
-                else if (opcoesCliente.get(opcaoCliente) == 2) {
-                    escolherCliente();
-                }
-
-                criarConta();
-
+                cadastrarCliente();
             }
             else if (opcoesIniciais.get(opcaoSelecionada) == 2) {
+                criarConta();
+            }
+            else if (opcoesIniciais.get(opcaoSelecionada) == 3) {
                 telaLogin();
             }
         }
@@ -47,36 +39,33 @@ public class App {
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
         Object[] opcoesArray = opcoesIniciais.toArray();
         int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
-        "1 - Criar conta\n2 - Login\n3 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
-        return opcaoSelecionada;
-    }
-
-    private static int exibirOpcaoCliente(List<Integer> opcoesCliente) {
-        Object[] opcoesArray = opcoesCliente.toArray();
-        int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
-        "1 - Cadastrar cliente\n2 - Escolher cliente já cadastrado", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        "1 - Cadastrar Cliente\n2 - Criar conta\n3 - Login\n4 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
         return opcaoSelecionada;
     }
 
     private static void cadastrarCliente() {
         String nomeCliente = JOptionPane.showInputDialog("Nome: ");
         String cpfCliente = JOptionPane.showInputDialog("CPF: ");
-        Random gerador = new Random();
-        int idCliente = 0;
+        int idCliente;
+        do {
+            idCliente = 10000 + (int) (Math.random() * 89999); //gerar um numero aleatorio para o id do cliente                
+        } while (numerosId.contains(idCliente) == true); //verifica se o id gerado já foi gerado e adicionado no array alguma outra vez
+        numerosId.add(idCliente); //adiciona o id no array para verificação
+
         Cliente novoCliente = new Cliente(nomeCliente, Long.parseLong(cpfCliente), idCliente, null);
         clientes.add(novoCliente);
+
+        JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
+        "\nId: " + idCliente, "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private static void escolherCliente() {
-        String idCliente = JOptionPane.showInputDialog("Digite seu código: ");
+    private static void criarConta() {
+        
     }
-
+    
     private static void telaLogin(){
         String numeroConta = JOptionPane.showInputDialog("Número da conta: ");
         String idCliente = JOptionPane.showInputDialog("Informe seu código único: ");
-    }
-    private static void criarConta() {
-        
     }
 }
 

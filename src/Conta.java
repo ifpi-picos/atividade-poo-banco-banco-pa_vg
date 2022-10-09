@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class Conta {
+public abstract class Conta {
 
     private int numeroConta;
     private int agenciaConta;
@@ -39,24 +39,15 @@ public class Conta {
         this.idCliente = idCliente;
     }
 
-    public void mostrarSaldo(){
-        /*deve retonar o saldo da conta
-         */
-
-    }
 
     public void depositar(){
     /* deve acrescentar ao saldo*/
 
 
     }
-    public void transferir(){
-        /*deve tirar do saldo e transferir para outra conta */
-
-    }
     public void sacar(){
-        /*deve retirar do saldo */
-
+        /*deve retirar do saldo, digite o valor a  ser sacado(confere se o valor  é maior que o saldo)*/
+    
     }
     
     public void gerarNumerosConta(List<Conta> numeros) {

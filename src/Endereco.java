@@ -2,11 +2,21 @@ public class Endereco {
     private String nomeRua;
     private String bairro;
     private int numeroCasa;
+    private String uf;
 
-    public Endereco (String nomeRua, String bairro, int numeroCasa) {
+    public Endereco (String nomeRua, String bairro, int numeroCasa, String uf) {
         setNomeRua(nomeRua);
         setBairro(bairro);
         setNumeroCasa(numeroCasa);
+        setUf(uf);
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 
     public String getNomeRua() {

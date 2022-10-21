@@ -6,9 +6,6 @@ public abstract class Conta {
     private int agenciaConta;
     private float saldo;
     private Cliente idCliente;
-    private List<Conta> numeros;
-    private List<Conta> agencias;
-    private List<Cliente> ids;
 
 
     public int getNumeroConta() {
@@ -48,13 +45,6 @@ public abstract class Conta {
     public void sacar(){
         /*deve retirar do saldo, digite o valor a  ser sacado(confere se o valor  é maior que o saldo)*/
     
-    }
-    
-    public void gerarNumerosConta(List<Conta> numeros) {
-
-    }
-    public void gerarNumeroAgencias(List<Conta> agencias) {
-
     }
     
 }

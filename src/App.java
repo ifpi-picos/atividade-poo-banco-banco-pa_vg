@@ -12,9 +12,6 @@ public class App {
     static List<Integer> numerosId = new ArrayList<>();
     Random gerador = new Random();
     public static void main(String[] args) throws Exception {
-
-
-
         List<Integer> opcoesIniciais = new ArrayList<>();
         opcoesIniciais.add(1);
         opcoesIniciais.add(2);
@@ -29,12 +26,28 @@ public class App {
                 cadastrarCliente();
             }
             else if (opcoesIniciais.get(opcaoSelecionada) == 2) {
-                criarConta();
+                List<Integer> opcoesTipo = new ArrayList<>();
+                opcoesTipo.add(1);
+                opcoesTipo.add(2);
+
+                int tipoConta = escolherTipo(opcoesTipo);
+                if (opcoesTipo.get(tipoConta) == 1) {
+                    criarContaCorrente();
+                } else {
+                    criarContaPoupanca();
+                }
             }
             else if (opcoesIniciais.get(opcaoSelecionada) == 3) {
                 telaLogin();
             }
         }
+    }
+
+    private static int escolherTipo(List<Integer> opcoesTipo) {
+        Object[] opcoesArray = opcoesTipo.toArray();
+        int tipoEscolhido = JOptionPane.showOptionDialog(null, 
+        "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        return tipoEscolhido;
     }
 
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
@@ -58,13 +71,14 @@ public class App {
 
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
         "\nId: " + idCliente, "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
-
-
-
     }
 
-    private static void criarConta() {
-        
+    private static void criarContaCorrente() {
+        System.out.println("Ok");
+    }
+
+    private static void criarContaPoupanca() {
+        System.out.println("Ok2");
     }
     
 

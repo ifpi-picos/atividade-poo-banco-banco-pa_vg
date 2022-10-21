@@ -8,6 +8,9 @@ public class Cliente {
     private Date dataNascimento;
     private List<Conta> contas;
 
+    public void adicionarConta() {
+
+    }
 
     public Cliente(String nome, long cpf, int idCliente, Date dataNascimento){
         setNome(nome);
@@ -46,20 +49,4 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-
-
-    
-
-    public void criarConta(){
-        /*deve criar a conta */
-
-    }
-    public void logarConta(){
-        /*deve entrar na conta do Cliente */
-
-
-    }
-    public void gerarId() {
-        
-    }
 }

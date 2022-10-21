@@ -1,4 +1,4 @@
-public class Corrente extends Conta {
+public class ContaCorrente extends Conta {
 
     private double chequeEspecial;
 

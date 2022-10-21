@@ -1,4 +1,4 @@
-public class Poupanca extends Conta {
+public class ContaPoupanca extends Conta {
 
     private double rendimento;
 

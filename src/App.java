@@ -4,8 +4,6 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-
-
 public class App {
     //static List<Conta> contas = new ArrayList<>();
     static List<Cliente> clientes = new ArrayList<>();
@@ -70,11 +68,20 @@ public class App {
         clientes.add(novoCliente);
 
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
-        "\nId: " + idCliente, "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
+        "\nId: " + idCliente + "\nAnote o ID para usá-lo posteriormente", "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
     }
 
     private static void criarContaCorrente() {
-        System.out.println("Ok");
+        String idCliente = JOptionPane.showInputDialog("Insira um ID de Cliente: ");
+        while (numerosId.contains(Integer.parseInt(idCliente)) == false) {
+            JOptionPane.showMessageDialog(null, "ID inválido\nInsira um ID válido");
+            idCliente = JOptionPane.showInputDialog("Insira um ID de Cliente: ");
+        }
+
+        ContaCorrente novaContaCorrente = new ContaCorrente(123, 0, 0, 0, null);
+        /*coloca o idcliente
+         
+         */
     }
 
     private static void criarContaPoupanca() {

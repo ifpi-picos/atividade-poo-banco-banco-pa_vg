@@ -1,4 +1,4 @@
-public abstract class Endereco {
+public class Endereco {
     private String nomeRua;
     private String bairro;
     private int numeroCasa;

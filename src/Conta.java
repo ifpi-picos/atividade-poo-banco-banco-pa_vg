@@ -3,9 +3,9 @@ public abstract class Conta {
     private int numeroConta;
     private int agenciaConta;
     private float saldo;
-    private Cliente idCliente;
+    private int idCliente;
 
-    public Conta(int numeroConta, int agenciaConta, float saldo, Cliente idCliente) {
+    public Conta(int numeroConta, int agenciaConta, float saldo, int idCliente) {
         this.numeroConta = numeroConta;
         this.agenciaConta = agenciaConta;
         this.saldo = saldo;
@@ -32,10 +32,10 @@ public abstract class Conta {
         this.saldo = saldo;
     }
 
-    public Cliente getIdCliente() {
+    public int getIdCliente() {
         return idCliente;
     }
-    public void setIdCliente(Cliente idCliente) {
+    public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
 

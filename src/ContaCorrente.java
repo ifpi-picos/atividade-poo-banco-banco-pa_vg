@@ -7,7 +7,7 @@ public class ContaCorrente extends Conta {
 
     }
 
-    public ContaCorrente(double chequeEspecial, int numeroConta, int agenciaConta, float saldo, Cliente idCliente) {
+    public ContaCorrente(double chequeEspecial, int numeroConta, int agenciaConta, float saldo, int idCliente) {
         super(numeroConta, agenciaConta, saldo, idCliente);
 
         this.chequeEspecial = chequeEspecial;

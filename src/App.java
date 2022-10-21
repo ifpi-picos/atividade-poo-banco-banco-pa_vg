@@ -77,8 +77,10 @@ public class App {
             JOptionPane.showMessageDialog(null, "ID inválido\nInsira um ID válido");
             idCliente = JOptionPane.showInputDialog("Insira um ID de Cliente: ");
         }
+        int numeroConta = 100000000 + (int) (Math.random() * 899999999);
+        int agenciaConta = 1000 + (int) (Math.random() * 89999);
 
-        ContaCorrente novaContaCorrente = new ContaCorrente(123, 0, 0, 0, null);
+        ContaCorrente novaContaCorrente = new ContaCorrente(0, numeroConta, agenciaConta, 0, Integer.parseInt(idCliente));
         /*coloca o idcliente
          
          */

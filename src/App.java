@@ -87,7 +87,14 @@ public class App {
     }
 
     private static void criarContaPoupanca() {
-        System.out.println("Ok2");
+        String idCliente = JOptionPane.showInputDialog("Insira um ID de Cliente: ");
+        while (numerosId.contains(Integer.parseInt(idCliente)) == false) {
+            JOptionPane.showMessageDialog(null, "ID inválido\nInsira um ID válido");
+            idCliente = JOptionPane.showInputDialog("Insira um ID de Cliente: ");
+        }
+        int numeroConta = 100000000 + (int) (Math.random() * 899999999);
+        int agenciaConta = 1000 + (int) (Math.random() * 89999);
+        ContaPoupanca novacContaPoupanca = new ContaPoupanca(numeroConta, agenciaConta, 0, Integer.parseInt(idCliente), 1.5);
     }
     
 

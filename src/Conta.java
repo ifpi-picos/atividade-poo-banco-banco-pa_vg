@@ -3,13 +3,11 @@ public abstract class Conta {
     private int numeroConta;
     private int agenciaConta;
     private float saldo;
-    private int idCliente;
 
-    public Conta(int numeroConta, int agenciaConta, float saldo, int idCliente) {
+    public Conta(int numeroConta, int agenciaConta, float saldo) {
         this.numeroConta = numeroConta;
         this.agenciaConta = agenciaConta;
         this.saldo = saldo;
-        this.idCliente = idCliente;
     }
     public int getNumeroConta() {
         return numeroConta;
@@ -31,14 +29,6 @@ public abstract class Conta {
     public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-
 
     public void depositar(){
     /* deve acrescentar ao saldo*/

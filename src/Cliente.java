@@ -68,4 +68,9 @@ public class Cliente {
         this.endereco = endereco;
     }
 
+    public List<Conta> getContas() {
+        return contas;
+    }
+    
+
 }

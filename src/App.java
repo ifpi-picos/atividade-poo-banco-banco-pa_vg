@@ -81,6 +81,36 @@ public class App {
         "\nId: " + idCliente + "\nAnote o ID para usá-lo posteriormente", "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
     }
 
+    private static void telaLogin(){
+        String idClienteStr = JOptionPane.showInputDialog("Código de identificação(ID): ");
+        String senha = JOptionPane.showInputDialog("Senha: ");
+        int idCliente = Integer.parseInt(idClienteStr);
+
+        for (Cliente cliente : clientes) {
+            //JOptionPane.showMessageDialog(null, cliente.getIdCliente() + "\n" + cliente.getSenha());
+            if(idCliente == cliente.getIdCliente() && senha.equals(cliente.getSenha())) {
+                List<Integer> opcoes = new ArrayList<>();
+                opcoes.add(1);
+                opcoes.add(2);
+                opcoes.add(3);
+
+                Object[] opcoesObject = opcoes.toArray();
+                int opcaoSelecionada = 1;
+                while (opcoes.get(opcaoSelecionada) != 3) {
+                    opcaoSelecionada = JOptionPane.showOptionDialog(null,
+                    "1 - Criar conta\n2 - Acessar conta\n3 - Encerrar", " ", JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE, null, opcoesObject, null);
+                    if (opcaoSelecionada == 1) {
+
+                    }
+                    else if (opcaoSelecionada == 2) {
+
+                    }
+                }
+            }
+        }
+    }
+
     private static void criarContaCorrente() {
         String idCliente = JOptionPane.showInputDialog("Insira um ID de Cliente: ");
         while (numerosId.contains(Integer.parseInt(idCliente)) == false) {
@@ -107,12 +137,6 @@ public class App {
         ContaPoupanca novacContaPoupanca = new ContaPoupanca(numeroConta, agenciaConta, 0, Integer.parseInt(idCliente), 1.5);
     }
     
-
-    
-    private static void telaLogin(){
-        String numeroConta = JOptionPane.showInputDialog("Número da conta: ");
-        String idCliente = JOptionPane.showInputDialog("Informe seu código único: ");
-    }
 
 }
 

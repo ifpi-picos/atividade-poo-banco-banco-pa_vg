@@ -64,7 +64,17 @@ public class App {
         } while (numerosId.contains(idCliente) == true); //verifica se o id gerado já foi gerado e adicionado no array alguma outra vez
         numerosId.add(idCliente); //adiciona o id no array para verificação
 
-        Cliente novoCliente = new Cliente(nomeCliente, Long.parseLong(cpfCliente), idCliente, null);
+        String estado = JOptionPane.showInputDialog("Estado que você mora: ");
+        String cidade = JOptionPane.showInputDialog("Nome da cidade: ");
+        String bairro = JOptionPane.showInputDialog("Nome do bairro: ");
+        String rua = JOptionPane.showInputDialog("Nome da rua: ");
+        String numeroCasa = JOptionPane.showInputDialog("Número da casa: ");
+
+        Endereco endereco = new Endereco(rua, bairro, Integer.parseInt(numeroCasa), estado, cidade);
+
+        String senha = JOptionPane.showInputDialog("Cadastre uma senha: ");
+
+        Cliente novoCliente = new Cliente(nomeCliente, Long.parseLong(cpfCliente), idCliente, null, endereco, senha);
         clientes.add(novoCliente);
 
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 

@@ -6,18 +6,21 @@ public class Cliente {
     private long cpf;
     private int idCliente;
     private Date dataNascimento;
+    private Endereco endereco;
+    private String senha;
     private List<Conta> contas;
 
     public void adicionarConta() {
 
     }
 
-    public Cliente(String nome, long cpf, int idCliente, Date dataNascimento){
+    public Cliente(String nome, long cpf, int idCliente, Date dataNascimento, Endereco endereco, String senha){
         setNome(nome);
         setCpf(cpf);
         setIdCliente(idCliente);
         setDataNascimento(dataNascimento);
-
+        setEndereco(endereco);
+        setSenha(senha);
     }
 
     public String getNome() {
@@ -47,6 +50,22 @@ public class Cliente {
     }
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
 }

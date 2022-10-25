@@ -6,9 +6,20 @@ public class ContaPoupanca extends Conta {
         super(numeroConta, agenciaConta, saldo, idCliente);
         this.rendimento = rendimento;
     }
+    
 
     public void tranferenciaTaxa(){
         /*deve pegar o valor da tranferencia adicionar a taxa e subtrair do saldo */
+    }
+
+
+    public double getRendimento() {
+        return rendimento;
+    }
+
+
+    public void setRendimento(double rendimento) {
+        this.rendimento = rendimento;
     }
 
 }

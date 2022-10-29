@@ -8,7 +8,8 @@ public class Cliente {
     private Date dataNascimento;
     private Endereco endereco;
     private String senha;
-    private List<Conta> contas;
+    private List<ContaCorrente> contasCorrente;
+    private List<ContaPoupanca> contasPoupanca;
 
     public void adicionarConta() {
 
@@ -68,9 +69,14 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public List<Conta> getContas() {
-        return contas;
+    public List<ContaCorrente> getContasCorrente() {
+        return contasCorrente;
     }
+
+    public List<ContaPoupanca> getContasPoupanca() {
+        return contasPoupanca;
+    }
+
     
 
 }

@@ -102,18 +102,35 @@ public class App {
                         int tipoConta = JOptionPane.showOptionDialog(null, 
                         "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
                         if (opcoesTipo.get(tipoConta) == 1) {
-                            criarContaCorrente(cliente.getContas());
-                            //cliente.getContas().add(novaContaCorrente);
+                            //criarContaCorrente();
+                            int numeroContaC = 100000000 + (int) (Math.random() * 899999999);
+                            int agenciaContaC = 1000 + (int) (Math.random() * 8999);
+
+                            ContaCorrente novaContaCorrente = new ContaCorrente(2000, numeroContaC, agenciaContaC, 0);
+                            JOptionPane.showMessageDialog(null, "Número da conta: " + numeroContaC + "\nNúmero da agência: " + agenciaContaC,
+                            "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
+                            //cliente.getContasCorrente().add(novaContaCorrente);
                         }
                         else {
-                            criarContaPoupanca();
+                            //criarContaPoupanca();
+                            int numeroContaP = 100000000 + (int) (Math.random() * 899999999);
+                            int agenciaContaP = 1000 + (int) (Math.random() * 8999);
+
+                            ContaPoupanca novaContaPoupanca = new ContaPoupanca(numeroContaP, agenciaContaP, 0, 1.5);
+                            JOptionPane.showMessageDialog(null, "Número da conta: " + numeroContaP + "\nNúmero da agência: " + agenciaContaP,
+                            "CONTA POUPANÇA CRIADA", JOptionPane.PLAIN_MESSAGE);
+                            //cliente.getContasPoupanca().add(novaContaPoupanca);
                         }
                     }
                     else if (opcoes.get(opcaoSelecionada) == 2) {
-                        String nConta = JOptionPane.showInputDialog("Número da conta: "); int numConta = Integer.parseInt(nConta);
-                        String agConta = JOptionPane.showInputDialog("Número da agência: "); int agnConta = Integer.parseInt(agConta);
+                        String numConta = JOptionPane.showInputDialog("Número da conta: ");
+                        String agConta = JOptionPane.showInputDialog("Número da agência: ");
 
-                        
+                        /*for (Conta conta:cliente.getContas()) {
+                            if(Integer.parseInt(numConta) == conta.getNumeroConta() && Integer.parseInt(agConta) == conta.getAgenciaConta()) {
+                                JOptionPane.showMessageDialog(null, "Deu certo", "Deu certo", idCliente);
+                            }
+                        }*/
                     }
                 }
             }
@@ -127,24 +144,24 @@ public class App {
         return tipoEscolhido;
     }
 
-    private static void criarContaCorrente(List<Conta> contas) {
+    /*private static void criarContaCorrente() {
         int numeroConta = 100000000 + (int) (Math.random() * 899999999);
         int agenciaConta = 1000 + (int) (Math.random() * 8999);
 
         ContaCorrente novaContaCorrente = new ContaCorrente(2000, numeroConta, agenciaConta, 0);
-        JOptionPane.showMessageDialog(null, "Número da conta: " + numeroConta + "Número da agência: " + agenciaConta,
+        JOptionPane.showMessageDialog(null, "Número da conta: " + numeroConta + "\nNúmero da agência: " + agenciaConta,
         "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
-        contas.add(novaContaCorrente);
-    }
+        //contas.add(novaContaCorrente);
+    }*/
 
-    private static void criarContaPoupanca() {
+    /*private static void criarContaPoupanca(ContaPoupanca novaContaPoupanca) {
         int numeroConta = 100000000 + (int) (Math.random() * 899999999);
         int agenciaConta = 1000 + (int) (Math.random() * 8999);
 
-        ContaPoupanca novaContaPoupanca = new ContaPoupanca(numeroConta, agenciaConta, 0, 1.5);
-        JOptionPane.showMessageDialog(null, "Número da conta: " + numeroConta + "Número da agência: " + agenciaConta,
+        novaContaPoupanca = new ContaPoupanca(numeroConta, agenciaConta, 0, 1.5);
+        JOptionPane.showMessageDialog(null, "Número da conta: " + numeroConta + "\nNúmero da agência: " + agenciaConta,
         "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
-    }
+    }*/
     
 
 }

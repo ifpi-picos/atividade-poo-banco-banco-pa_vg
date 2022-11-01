@@ -14,29 +14,76 @@ public class App {
         opcoesIniciais.add(1);
         opcoesIniciais.add(2);
         opcoesIniciais.add(3);
-        opcoesIniciais.add(4);
 
         int opcaoSelecionada = 1;
-        while (opcoesIniciais.get(opcaoSelecionada) != 4) {
+        while (opcoesIniciais.get(opcaoSelecionada) != 3) {
             opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
 
             if (opcoesIniciais.get(opcaoSelecionada) == 1){
                 cadastrarCliente();
             }
             else if (opcoesIniciais.get(opcaoSelecionada) == 2) {
-                List<Integer> opcoesTipo = new ArrayList<>();
-                opcoesTipo.add(1);
-                opcoesTipo.add(2);
+                //telaLogin();
+                String idClienteStr = JOptionPane.showInputDialog("Código de identificação(ID): ");
+                String senha = JOptionPane.showInputDialog("Senha: ");
+                int idCliente = Integer.parseInt(idClienteStr);
 
-                int tipoConta = escolherTipo(opcoesTipo);
-                if (opcoesTipo.get(tipoConta) == 1) {
-                    //criarContaCorrente();
-                } else {
-                    //criarContaPoupanca();
+                for (Cliente cliente : clientes) {
+                    if(idCliente == cliente.getIdCliente() && senha.equals(cliente.getSenha())) {
+                        List<Integer> opcoes = new ArrayList<>();
+                        opcoes.add(1);
+                        opcoes.add(2);
+                        opcoes.add(3);
+
+                        Object[] opcoesObject = opcoes.toArray();
+                        int opcaoEscolhida = 1;
+                        while (opcoes.get(opcaoEscolhida) != 3) {
+                            opcaoEscolhida = JOptionPane.showOptionDialog(null,
+                            "1 - Criar conta\n2 - Acessar conta\n3 - Encerrar", " ", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, opcoesObject, null);
+
+                            if (opcoes.get(opcaoEscolhida) == 1) {
+                                List<Integer> opcoesTipo = new ArrayList<>();
+                                opcoesTipo.add(1);
+                                opcoesTipo.add(2);
+
+                                Object[] opcoesArray = opcoesTipo.toArray();
+                                int tipoConta = JOptionPane.showOptionDialog(null, 
+                                "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
+                                if (opcoesTipo.get(tipoConta) == 1) {
+                                    //criarContaCorrente();
+                                    int numeroContaC = 100000000 + (int) (Math.random() * 899999999);
+                                    int agenciaContaC = 1000 + (int) (Math.random() * 8999);
+
+                                    ContaCorrente novaContaCorrente = new ContaCorrente(2000, numeroContaC, agenciaContaC, 0);
+                                    JOptionPane.showMessageDialog(null, "Número da conta: " + numeroContaC + "\nNúmero da agência: " + agenciaContaC,
+                                    "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
+                                    cliente.adicionarContaCorrente(novaContaCorrente);
+                                }
+                                else {
+                                    //criarContaPoupanca();
+                                    int numeroContaP = 100000000 + (int) (Math.random() * 899999999);
+                                    int agenciaContaP = 1000 + (int) (Math.random() * 8999);
+
+                                    ContaPoupanca novaContaPoupanca = new ContaPoupanca(numeroContaP, agenciaContaP, 0, 1.5);
+                                    JOptionPane.showMessageDialog(null, "Número da conta: " + numeroContaP + "\nNúmero da agência: " + agenciaContaP,
+                                    "CONTA POUPANÇA CRIADA", JOptionPane.PLAIN_MESSAGE);
+                                    cliente.adicionarContaPoupanca(novaContaPoupanca);
+                                }
+                            }
+                            else if (opcoes.get(opcaoSelecionada) == 2) {
+                                String numConta = JOptionPane.showInputDialog("Número da conta: ");
+                                String agConta = JOptionPane.showInputDialog("Número da agência: ");
+
+                                /*for (Conta conta:cliente.getContas()) {
+                                    if(Integer.parseInt(numConta) == conta.getNumeroConta() && Integer.parseInt(agConta) == conta.getAgenciaConta()) {
+                                        JOptionPane.showMessageDialog(null, "Deu certo", "Deu certo", idCliente);
+                                    }
+                                }*/
+                            }
+                        }
+                    }
                 }
-            }
-            else if (opcoesIniciais.get(opcaoSelecionada) == 3) {
-                telaLogin();
             }
         }
     }
@@ -44,7 +91,7 @@ public class App {
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
         Object[] opcoesArray = opcoesIniciais.toArray();
         int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
-        "1 - Cadastrar Cliente\n2 - Criar conta\n3 - Login\n4 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        "1 - Cadastrar Cliente\n2 - Login\n3 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
         return opcaoSelecionada;
     }
 
@@ -72,76 +119,6 @@ public class App {
 
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
         "\nId: " + idCliente + "\nAnote o ID para usá-lo posteriormente", "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    private static void telaLogin(){
-        String idClienteStr = JOptionPane.showInputDialog("Código de identificação(ID): ");
-        String senha = JOptionPane.showInputDialog("Senha: ");
-        int idCliente = Integer.parseInt(idClienteStr);
-
-        for (Cliente cliente : clientes) {
-            if(idCliente == cliente.getIdCliente() && senha.equals(cliente.getSenha())) {
-                List<Integer> opcoes = new ArrayList<>();
-                opcoes.add(1);
-                opcoes.add(2);
-                opcoes.add(3);
-
-                Object[] opcoesObject = opcoes.toArray();
-                int opcaoSelecionada = 1;
-                while (opcoes.get(opcaoSelecionada) != 3) {
-                    opcaoSelecionada = JOptionPane.showOptionDialog(null,
-                    "1 - Criar conta\n2 - Acessar conta\n3 - Encerrar", " ", JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE, null, opcoesObject, null);
-
-                    if (opcoes.get(opcaoSelecionada) == 1) {
-                        List<Integer> opcoesTipo = new ArrayList<>();
-                        opcoesTipo.add(1);
-                        opcoesTipo.add(2);
-
-                        Object[] opcoesArray = opcoesTipo.toArray();
-                        int tipoConta = JOptionPane.showOptionDialog(null, 
-                        "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
-                        if (opcoesTipo.get(tipoConta) == 1) {
-                            //criarContaCorrente();
-                            int numeroContaC = 100000000 + (int) (Math.random() * 899999999);
-                            int agenciaContaC = 1000 + (int) (Math.random() * 8999);
-
-                            ContaCorrente novaContaCorrente = new ContaCorrente(2000, numeroContaC, agenciaContaC, 0);
-                            JOptionPane.showMessageDialog(null, "Número da conta: " + numeroContaC + "\nNúmero da agência: " + agenciaContaC,
-                            "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
-                            //cliente.getContasCorrente().add(novaContaCorrente);
-                        }
-                        else {
-                            //criarContaPoupanca();
-                            int numeroContaP = 100000000 + (int) (Math.random() * 899999999);
-                            int agenciaContaP = 1000 + (int) (Math.random() * 8999);
-
-                            ContaPoupanca novaContaPoupanca = new ContaPoupanca(numeroContaP, agenciaContaP, 0, 1.5);
-                            JOptionPane.showMessageDialog(null, "Número da conta: " + numeroContaP + "\nNúmero da agência: " + agenciaContaP,
-                            "CONTA POUPANÇA CRIADA", JOptionPane.PLAIN_MESSAGE);
-                            //cliente.getContasPoupanca().add(novaContaPoupanca);
-                        }
-                    }
-                    else if (opcoes.get(opcaoSelecionada) == 2) {
-                        String numConta = JOptionPane.showInputDialog("Número da conta: ");
-                        String agConta = JOptionPane.showInputDialog("Número da agência: ");
-
-                        /*for (Conta conta:cliente.getContas()) {
-                            if(Integer.parseInt(numConta) == conta.getNumeroConta() && Integer.parseInt(agConta) == conta.getAgenciaConta()) {
-                                JOptionPane.showMessageDialog(null, "Deu certo", "Deu certo", idCliente);
-                            }
-                        }*/
-                    }
-                }
-            }
-        }
-    }
-
-    private static int escolherTipo(List<Integer> opcoesTipo) {
-        Object[] opcoesArray = opcoesTipo.toArray();
-        int tipoEscolhido = JOptionPane.showOptionDialog(null, 
-        "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
-        return tipoEscolhido;
     }
 
     /*private static void criarContaCorrente() {

@@ -77,6 +77,14 @@ public class Cliente {
         return contasPoupanca;
     }
 
+    public void adicionarContaCorrente(ContaCorrente contaCorrente) {
+        this.contasCorrente.add(contaCorrente);
+    }
+
+    public void adicionarContaPoupanca(ContaPoupanca contaPoupanca) {
+        this.contasPoupanca.add(contaPoupanca);
+    }
+
     
 
 }

@@ -1,14 +1,25 @@
 public abstract class Conta {
-
+    private int idCliente;
     private int numeroConta;
     private int agenciaConta;
     private float saldo;
 
-    public Conta(int numeroConta, int agenciaConta, float saldo) {
+    public Conta(int idCliente, int numeroConta, int agenciaConta, float saldo) {
+        this.idCliente = idCliente;
         this.numeroConta = numeroConta;
         this.agenciaConta = agenciaConta;
         this.saldo = saldo;
     }
+
+    
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
     public int getNumeroConta() {
         return numeroConta;
     }

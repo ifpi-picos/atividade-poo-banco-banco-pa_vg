@@ -1,5 +1,4 @@
 import java.util.Date;
-import java.util.List;
 
 public class Cliente {
     private String nome;
@@ -8,8 +7,6 @@ public class Cliente {
     private Date dataNascimento;
     private Endereco endereco;
     private String senha;
-    private List<ContaCorrente> contasCorrente;
-    private List<ContaPoupanca> contasPoupanca;
 
     public void adicionarConta() {
 
@@ -68,23 +65,4 @@ public class Cliente {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
-    public List<ContaCorrente> getContasCorrente() {
-        return contasCorrente;
-    }
-
-    public List<ContaPoupanca> getContasPoupanca() {
-        return contasPoupanca;
-    }
-
-    public void adicionarContaCorrente(ContaCorrente contaCorrente) {
-        this.contasCorrente.add(contaCorrente);
-    }
-
-    public void adicionarContaPoupanca(ContaPoupanca contaPoupanca) {
-        this.contasPoupanca.add(contaPoupanca);
-    }
-
-    
-
 }

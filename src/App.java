@@ -76,16 +76,60 @@ public class App {
                                 String numConta = JOptionPane.showInputDialog("Número da conta: ");
                                 String agConta = JOptionPane.showInputDialog("Número da agência: ");
                                 //teste:
-                                for (ContaCorrente contaC:contasC) {
-                                    if(Integer.parseInt(numConta) == contaC.getNumeroConta() && Integer.parseInt(agConta) == contaC.getAgenciaConta()) {
-                                        System.out.println("OK");
+                                List<Integer> opcoesTipo = new ArrayList<>();
+                                opcoesTipo.add(1);
+                                opcoesTipo.add(2);
+                                //escolher o tipo de conta (corrente ou poupança)
+                                Object[] opcoesArray = opcoesTipo.toArray();
+                                int tipoConta = JOptionPane.showOptionDialog(null, 
+                                "1 - Conta Corrente\n2 - Conta Poupança", "Tipo da conta", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
+                                
+                                if (opcoesTipo.get(tipoConta) == 1) { //opcoes.get(opcaoEscolhida
+                                    for (ContaCorrente contaC:contasC) {
+                                        if(Integer.parseInt(numConta) == contaC.getNumeroConta() && Integer.parseInt(agConta) == contaC.getAgenciaConta()) {
+                                            List<Integer> menuContaC = new ArrayList<>();
+                                            menuContaC.add(1);
+                                            menuContaC.add(2);
+                                            menuContaC.add(3);
+                                            menuContaC.add(4);
+                                            menuContaC.add(5);
+                                            Object[] opcoesMenu = menuContaC.toArray();
+                                            int opcaoMenu = 1;
+                                            while (opcoesTipo.get(opcaoMenu) != 5) {
+                                                opcaoMenu = JOptionPane.showOptionDialog(null, 
+                                                "1 - ver saldo\n2 - Depositar\n3 - Sacar\n4 - Realizar transferência\n5 - Encerrar", "Título",
+                                                JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesMenu, opcoesMenu);     
+                                                        
+                                                if (menuContaC.get(opcaoMenu) == 1) {
+                                                    JOptionPane.showMessageDialog(null, "Saldo: " + contaC.getSaldo(), "titulo", 1);
+                                                }
+                                                else if(menuContaC.get(opcaoMenu) == 2) {
+                                                    String valorDeposito = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depósito", 1);
+                                                    contaC.setSaldo(Float.parseFloat(valorDeposito) + contaC.getSaldo());
+                                                }
+                                                else if(menuContaC.get(opcaoMenu) == 3) {
+                                                    String valorSacar = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depósito", 1);
+                                                    float valorSaque = Float.parseFloat(valorSacar);
+                                                    if (valorSaque <= contaC.getSaldo()) {
+                                                        contaC.setSaldo(contaC.getSaldo() - valorSaque);
+                                                    } else {
+                                                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+                                                    }
+                                                }
+                                                else if(menuContaC.get(opcaoMenu) == 4) {
+
+                                                    
+                                                }
+                                            }
+                                        }
                                     }
-                                }
+                                } // <-
+                                
                             }
                         }
                     } else {
                         //senha incorreta
-                        System.out.println("Senha incorreta");
+                        JOptionPane.showMessageDialog(null, "Número ou senha incorretos", "ERRO", idCliente);
                     }
                 }
             }

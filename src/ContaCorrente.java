@@ -1,25 +1,31 @@
 public class ContaCorrente extends Conta {
 
-    private double chequeEspecial;
+    private float chequeEspecial;
+    private int qtTransferencia;
 
-    public void tranferencia(){
-        /*deve pegar o valor da tranferencia e subtrair do saldo */
-
-    }
-
-    public ContaCorrente(double chequeEspecial, int idCliente, int numeroConta, int agenciaConta, float saldo) {
+    public ContaCorrente(float chequeEspecial, int idCliente, int numeroConta, int agenciaConta, float saldo, int qtTransferencia) {
         super(idCliente, numeroConta, agenciaConta, saldo);
 
-        this.chequeEspecial = chequeEspecial;
+        setChequeEspecial(chequeEspecial);
+        setQtTransferencia(qtTransferencia);
     }
 
-    public double getChequeEspecial() {
+    public float getChequeEspecial() {
         return chequeEspecial;
     }
 
-    public void setChequeEspecial(double chequeEspecial) {
+    public void setChequeEspecial(float chequeEspecial) {
         this.chequeEspecial = chequeEspecial;
     }
+
+    public int getQtTransferencia() {
+        return qtTransferencia;
+    }
+
+    public void setQtTransferencia(int qtTransferencia) {
+        this.qtTransferencia = qtTransferencia;
+    }
+    
 
     
     

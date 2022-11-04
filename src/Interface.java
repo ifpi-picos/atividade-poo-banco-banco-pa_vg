@@ -1,6 +1,7 @@
-public class Interface {
+public interface Interface {
 
-    /*enviaram um email avisando que saques, tranferencias ou depositos foram feitos  */
+
+public void enviarNotificacao();
 
 
 }

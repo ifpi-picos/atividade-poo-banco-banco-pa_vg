@@ -172,6 +172,10 @@ public class App {
                                                             }    
                                                         }
                                                     }
+                                                    if (contaC.getQtTransferencia() >= 2) {
+                                                        contaC.setSaldo(contaC.getSaldo() - valorTransferir * 0.05f);
+                                                    }
+                                                    contaC.setQtTransferencia(contaC.getQtTransferencia() + 1);
                                                 }
                                             }
                                         }
@@ -298,27 +302,6 @@ public class App {
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
         "\nId: " + idCliente + "\nGuarde o ID para poder fazer login", "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
     }
-
-    /*private static void criarContaCorrente() {
-        int numeroConta = 100000000 + (int) (Math.random() * 899999999);
-        int agenciaConta = 1000 + (int) (Math.random() * 8999);
-
-        ContaCorrente novaContaCorrente = new ContaCorrente(2000, numeroConta, agenciaConta, 0);
-        JOptionPane.showMessageDialog(null, "Número da conta: " + numeroConta + "\nNúmero da agência: " + agenciaConta,
-        "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
-        //contas.add(novaContaCorrente);
-    }*/
-
-    /*private static void criarContaPoupanca(ContaPoupanca novaContaPoupanca) {
-        int numeroConta = 100000000 + (int) (Math.random() * 899999999);
-        int agenciaConta = 1000 + (int) (Math.random() * 8999);
-
-        novaContaPoupanca = new ContaPoupanca(numeroConta, agenciaConta, 0, 1.5);
-        JOptionPane.showMessageDialog(null, "Número da conta: " + numeroConta + "\nNúmero da agência: " + agenciaConta,
-        "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
-    }*/
-    
-
 }
 
 

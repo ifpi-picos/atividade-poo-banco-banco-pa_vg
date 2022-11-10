@@ -6,7 +6,7 @@ public class EnviarSmS implements Notificacao {
     @Override
     public void enviarNotificacao(String opera,double opavalor) {
         // TODO Auto-generated method stub
-        System.out.println(" sua operacao foi feita");
+        System.out.println("o valor "+opavalor+"foi"+opera);
         
     }
     

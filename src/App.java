@@ -8,6 +8,7 @@ public class App {
     static List<ContaCorrente> contasC = new ArrayList<>();
     static List<ContaPoupanca> contasP = new ArrayList<>();
     static EnviarEmail email = new EnviarEmail();
+    static EnviarSmS sms = new EnviarSmS();
 
 
     public static void main(String[] args) throws Exception {
@@ -137,11 +138,35 @@ public class App {
     }
 
 
+    private static int selecioarNotific(){
+        List<Integer> opcoesNoti = new ArrayList<>();
+        opcoesNoti.add(1);
+        opcoesNoti.add(2);
+        //escolher o tipo de conta (corrente ou poupança)
+        Object[] opcoesArray = opcoesNoti.toArray();
+        int tipoNoti = JOptionPane.showOptionDialog(null, 
+        "1 - Email\n2 - SMS", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
+        if (opcoesNoti.get(tipoNoti) == 1) {
+           return tipoNoti;
+        }
+        else {
+            return tipoNoti;
+           
+        }
+      
+
+    }
+
     private static void tranferirParaContaC(ContaCorrente contaDestino, float valorTransferir) {
         if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
             contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + valorTransferir);
             contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-             email.enviarNotificacao("Tranferencia", valorTransferir);
+            if(selecioarNotific() == 1){ 
+             email.enviarNotificacao("Tranferido ", valorTransferir);
+            }
+            else {
+                sms.enviarNotificacao("Tranferido ", valorTransferir);
+            }
         } else {
             float dif = 2000 - contaDestino.getChequeEspecial();
             contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + dif);
@@ -160,25 +185,6 @@ public class App {
         return opcaoSelecionada;
     }
 
-    private static int selecioarNotific(){
-        List<Integer> opcoesNoti = new ArrayList<>();
-        opcoesNoti.add(1);
-        opcoesNoti.add(2);
-        //escolher o tipo de conta (corrente ou poupança)
-        Object[] opcoesArray = opcoesNoti.toArray();
-        int tipoNoti = JOptionPane.showOptionDialog(null, 
-        "1 - Email\n2 - SMS", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
-        if (opcoesNoti.get(tipoNoti) == 1) {
-           return tipoNoti;
-        }
-        else if (opcoesNoti.get(tipoNoti) == 2) {
-            return tipoNoti;
-           
-        }
-        return tipoNoti;
-      
-
-    }
 
     private static void cadastrarCliente() {
         String nomeCliente = JOptionPane.showInputDialog("Nome: ");
@@ -244,14 +250,24 @@ public class App {
         if (valorDeposito <= 2000 - contaC.getChequeEspecial()){
             contaC.setChequeEspecial(contaC.getChequeEspecial() + valorDeposito);
             contaC.setSaldo(contaC.getSaldo() + valorDeposito);
-            email.enviarNotificacao("Depositado", valorDeposito);
+            if(selecioarNotific() == 1){ 
+                email.enviarNotificacao("Depositado ", valorDeposito);
+               }
+               else {
+                   sms.enviarNotificacao("Depositado ", valorDeposito);
+               }
             
         }
         else {
             float dif = 2000 - contaC.getChequeEspecial();
             contaC.setChequeEspecial(contaC.getChequeEspecial() + dif);
             contaC.setSaldo(contaC.getSaldo() + valorDeposito);
-            email.enviarNotificacao("Depositado", valorDeposito);
+            if(selecioarNotific() == 1){ 
+                email.enviarNotificacao("Depositado ", valorDeposito);
+               }
+               else {
+                   sms.enviarNotificacao("Depositado ", valorDeposito);
+               }
         }
     }
 
@@ -259,8 +275,12 @@ public class App {
         String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
         float valorDeposito = Float.parseFloat(valorDep);
         contaP.setSaldo(contaP.getSaldo() + valorDeposito + valorDeposito * contaP.getRendimento());
-
-         email.enviarNotificacao("Deposito",valorDeposito);
+        if(selecioarNotific() == 1){ 
+            email.enviarNotificacao("Depositado ", valorDeposito);
+           }
+           else {
+               sms.enviarNotificacao("Depositado ", valorDeposito);
+           }
     }
 
 
@@ -271,11 +291,16 @@ public class App {
         float valorSaque = Float.parseFloat(valorSacar);
         if (valorSaque <= contaC.getSaldo()) {
             contaC.setSaldo(contaC.getSaldo() - valorSaque);
-            email.enviarNotificacao("Saque", valorSaque);
+            email.enviarNotificacao("Saque ", valorSaque);
         } else if (valorSaque <= contaC.getSaldo() + contaC.getChequeEspecial()) {
             contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorSaque)  + contaC.getSaldo());
             contaC.setSaldo(contaC.getSaldo() - valorSaque);
-            email.enviarNotificacao("Saque", valorSaque);
+            if(selecioarNotific() == 1){ 
+                email.enviarNotificacao("Sacado ", valorSaque);
+               }
+               else {
+                   sms.enviarNotificacao("Sacado ", valorSaque);
+               }
             
         }
         else {
@@ -287,7 +312,12 @@ public class App {
         float valorSaque = Float.parseFloat(valorSacar);
         if (valorSaque <= contaP.getSaldo()) {
             contaP.setSaldo(contaP.getSaldo() - valorSaque);
-            email.enviarNotificacao("Saque", valorSaque);
+            if(selecioarNotific() == 1){ 
+                email.enviarNotificacao("Sacado ", valorSaque);
+               }
+               else {
+                   sms.enviarNotificacao("Sacado ", valorSaque);
+               }
         }
         else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
@@ -313,13 +343,18 @@ public class App {
                     if (valorTransferir <= contaC.getSaldo()) {
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         tranferirParaContaC(contaDestino, valorTransferir);
-                        email.enviarNotificacao("Transferencia", valorTransferir);
+                        email.enviarNotificacao("Transferido ", valorTransferir);
                     }
                     else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
                         contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         tranferirParaContaC(contaDestino, valorTransferir);
-                        email.enviarNotificacao("Transferencia", valorTransferir);
+                        if(selecioarNotific() == 1){ 
+                            email.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
+                           else {
+                               sms.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
                         
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
@@ -333,12 +368,22 @@ public class App {
                     if (valorTransferir <= contaC.getSaldo()) {
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                        email.enviarNotificacao("Transferencia", valorTransferir);
+                        if(selecioarNotific() == 1){ 
+                            email.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
+                           else {
+                               sms.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
                     } else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
                         contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                        email.enviarNotificacao("Transferencia", valorTransferir);
+                        if(selecioarNotific() == 1){ 
+                            email.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
+                           else {
+                               sms.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
                     }
@@ -371,7 +416,12 @@ public class App {
                     if (valorTransferir <= contaP.getSaldo()) {
                         contaP.setSaldo(contaP.getSaldo() - valorTransferir);
                         tranferirParaContaC(contaDestino, valorTransferir);
-                        email.enviarNotificacao("Transferencia", valorTransferir);
+                        if(selecioarNotific() == 1){ 
+                            email.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
+                           else {
+                               sms.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
                     }
@@ -384,7 +434,12 @@ public class App {
                     if (valorTransferir <= contaP.getSaldo()) {
                         contaP.setSaldo(contaP.getSaldo() - valorTransferir);
                         contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                        email.enviarNotificacao("Transferencia", valorTransferir);
+                        if(selecioarNotific() == 1){ 
+                            email.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
+                           else {
+                               sms.enviarNotificacao("Tranferido ", valorTransferir);
+                           }
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
                     }

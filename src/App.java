@@ -1,27 +1,33 @@
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 public class App {
     //static List<Conta> contas = new ArrayList<>();
     static List<Cliente> clientes = new ArrayList<>();
     static List<Integer> numerosId = new ArrayList<>();
     static List<ContaCorrente> contasC = new ArrayList<>();
     static List<ContaPoupanca> contasP = new ArrayList<>();
+    static EnviarEmail email = new EnviarEmail();
+
 
     public static void main(String[] args) throws Exception {
         List<Integer> opcoesIniciais = new ArrayList<>();
         opcoesIniciais.add(1);
         opcoesIniciais.add(2);
         opcoesIniciais.add(3);
+        opcoesIniciais.add(4);
 
         int opcaoSelecionada = 1;
-        while (opcoesIniciais.get(opcaoSelecionada) != 3) {
+        while (opcoesIniciais.get(opcaoSelecionada) != 4) {
             opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
 
             if (opcoesIniciais.get(opcaoSelecionada) == 1){ //cadastrar um cliente
                 cadastrarCliente();
+            }
+            else if(opcoesIniciais.get(opcaoSelecionada) == 3 ){
+                selecioarNotific();
+
+
             }
             else if (opcoesIniciais.get(opcaoSelecionada) == 2) { //realizar login do cliente
                 //telaLogin();
@@ -135,6 +141,7 @@ public class App {
         if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
             contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + valorTransferir);
             contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+             email.enviarNotificacao("Tranferencia", valorTransferir);
         } else {
             float dif = 2000 - contaDestino.getChequeEspecial();
             contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + dif);
@@ -142,16 +149,43 @@ public class App {
         }
     }
 
+   
+
+
+
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
         Object[] opcoesArray = opcoesIniciais.toArray();
         int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
-        "1 - Cadastrar Cliente\n2 - Login\n3 - Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        "1 - Cadastrar Cliente\n2 - Login\n3 - Tipo de Notificação\n4- Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
         return opcaoSelecionada;
+    }
+
+    private static int selecioarNotific(){
+        List<Integer> opcoesNoti = new ArrayList<>();
+        opcoesNoti.add(1);
+        opcoesNoti.add(2);
+        //escolher o tipo de conta (corrente ou poupança)
+        Object[] opcoesArray = opcoesNoti.toArray();
+        int tipoNoti = JOptionPane.showOptionDialog(null, 
+        "1 - Email\n2 - SMS", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
+        if (opcoesNoti.get(tipoNoti) == 1) {
+           return tipoNoti;
+        }
+        else if (opcoesNoti.get(tipoNoti) == 2) {
+            return tipoNoti;
+           
+        }
+        return tipoNoti;
+      
+
     }
 
     private static void cadastrarCliente() {
         String nomeCliente = JOptionPane.showInputDialog("Nome: ");
         String cpfCliente = JOptionPane.showInputDialog("CPF: ");
+        String email = JOptionPane.showInputDialog("Digite seu Email: ");
+        String telefone = JOptionPane.showInputDialog("Digite seu telefone");
+
         int idCliente;
         do {
             idCliente = 10000 + (int) (Math.random() * 89999); //gerar um numero aleatorio para o id do cliente                
@@ -168,7 +202,7 @@ public class App {
 
         String senha = JOptionPane.showInputDialog("Cadastre uma senha: ");
 
-        Cliente novoCliente = new Cliente(nomeCliente, Long.parseLong(cpfCliente), idCliente, null, endereco, senha);
+        Cliente novoCliente = new Cliente(nomeCliente, Long.parseLong(cpfCliente), idCliente, null, endereco, senha, email,  telefone);
         clientes.add(novoCliente);
 
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
@@ -210,6 +244,7 @@ public class App {
         if (valorDeposito <= 2000 - contaC.getChequeEspecial()){
             contaC.setChequeEspecial(contaC.getChequeEspecial() + valorDeposito);
             contaC.setSaldo(contaC.getSaldo() + valorDeposito);
+            
         }
         else {
             float dif = 2000 - contaC.getChequeEspecial();
@@ -222,7 +257,11 @@ public class App {
         String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
         float valorDeposito = Float.parseFloat(valorDep);
         contaP.setSaldo(contaP.getSaldo() + valorDeposito + valorDeposito * contaP.getRendimento());
+
+         email.enviarNotificacao("Deposito",valorDeposito);
     }
+
+
 
     private static void sacarCC(ContaCorrente contaC) {//saque de conta corrente
         
@@ -244,6 +283,7 @@ public class App {
         float valorSaque = Float.parseFloat(valorSacar);
         if (valorSaque <= contaP.getSaldo()) {
             contaP.setSaldo(contaP.getSaldo() - valorSaque);
+            email.enviarNotificacao("Saque", valorSaque);
         }
         else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
@@ -269,11 +309,13 @@ public class App {
                     if (valorTransferir <= contaC.getSaldo()) {
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         tranferirParaContaC(contaDestino, valorTransferir);
+                        email.enviarNotificacao("Transferencia", valorTransferir);
                     }
                     else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
                         contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         tranferirParaContaC(contaDestino, valorTransferir);
+                        email.enviarNotificacao("Transferencia", valorTransferir);
                         
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
@@ -287,10 +329,12 @@ public class App {
                     if (valorTransferir <= contaC.getSaldo()) {
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                        email.enviarNotificacao("Transferencia", valorTransferir);
                     } else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
                         contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
                         contaC.setSaldo(contaC.getSaldo() - valorTransferir);
                         contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                        email.enviarNotificacao("Transferencia", valorTransferir);
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
                     }
@@ -299,6 +343,7 @@ public class App {
         }
         if (contaC.getQtTransferencia() >= 2) {
             contaC.setSaldo(contaC.getSaldo() - valorTransferir * 0.05f);
+            
         }
         contaC.setQtTransferencia(contaC.getQtTransferencia() + 1);
     }

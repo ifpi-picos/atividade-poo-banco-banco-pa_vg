@@ -1,8 +1,8 @@
 public class ContaPoupanca extends Conta {
 
-    private double rendimento;
+    private float rendimento;
 
-    public ContaPoupanca(int idCliente, int numeroConta, int agenciaConta, float saldo, double rendimento) {
+    public ContaPoupanca(int idCliente, int numeroConta, int agenciaConta, float saldo, float rendimento) {
         super(idCliente, numeroConta, agenciaConta, saldo);
         this.rendimento = rendimento;
     }
@@ -13,12 +13,12 @@ public class ContaPoupanca extends Conta {
     }
 
 
-    public double getRendimento() {
+    public float getRendimento() {
         return rendimento;
     }
 
 
-    public void setRendimento(double rendimento) {
+    public void setRendimento(float rendimento) {
         this.rendimento = rendimento;
     }
 

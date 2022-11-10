@@ -44,33 +44,8 @@ public class App {
                             JOptionPane.PLAIN_MESSAGE, null, opcoesObject, null);
 
                             if (opcoes.get(opcaoEscolhida) == 1) { //criar uma conta
-                                List<Integer> opcoesTipo = new ArrayList<>();
-                                opcoesTipo.add(1);
-                                opcoesTipo.add(2);
-                                //escolher o tipo de conta (corrente ou poupança)
-                                Object[] opcoesArray = opcoesTipo.toArray();
-                                int tipoConta = JOptionPane.showOptionDialog(null, 
-                                "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
-                                if (opcoesTipo.get(tipoConta) == 1) {
-                                    //criarContaCorrente();
-                                    int numeroContaC = 10000 + (int) (Math.random() * 89999);
-                                    int agenciaContaC = 10 + (int) (Math.random() * 89);
-
-                                    ContaCorrente novaContaCorrente = new ContaCorrente(2000, cliente.getIdCliente(), numeroContaC, agenciaContaC, 0, 0);
-                                    JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\nID: " + cliente.getIdCliente() + "\n\nNúmero da conta: " + numeroContaC + "\nNúmero da agência: " + agenciaContaC,
-                                    "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
-                                    contasC.add(novaContaCorrente);
-                                }
-                                else if (opcoesTipo.get(tipoConta) == 2) {
-                                    //criarContaPoupanca();
-                                    int numeroContaP = 10000 + (int) (Math.random() * 89999);
-                                    int agenciaContaP = 10 + (int) (Math.random() * 89);
-
-                                    ContaPoupanca novaContaPoupanca = new ContaPoupanca(cliente.getIdCliente(), numeroContaP, agenciaContaP, 0, 1.5);
-                                    JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\nID: " + cliente.getIdCliente() + "\n\nNúmero da conta: " + numeroContaP + "\nNúmero da agência: " + agenciaContaP,
-                                    "CONTA POUPANÇA CRIADA", JOptionPane.PLAIN_MESSAGE);
-                                    contasP.add(novaContaPoupanca);
-                                }
+                                criarConta(cliente);
+                                
                             }
                             else if (opcoes.get(opcaoEscolhida) == 2) { //acessar a conta
                                 List<Integer> opcoesTipo = new ArrayList<>();
@@ -104,78 +79,13 @@ public class App {
                                                     JOptionPane.showMessageDialog(null, "Saldo: " + contaC.getSaldo() + "\nCheque especial: " + contaC.getChequeEspecial(), "titulo", 1);
                                                 }
                                                 else if(menuContaC.get(opcaoMenu) == 2) {
-                                                    String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
-                                                    float valorDeposito = Float.parseFloat(valorDep);
-                                                    if (valorDeposito <= 2000 - contaC.getChequeEspecial()){
-                                                        contaC.setChequeEspecial(contaC.getChequeEspecial() + valorDeposito);
-                                                        contaC.setSaldo(contaC.getSaldo() + valorDeposito);
-                                                    
-                                                    }
-                                                    else {
-                                                        float dif = 2000 - contaC.getChequeEspecial();
-                                                        contaC.setChequeEspecial(contaC.getChequeEspecial() + dif);
-                                                        contaC.setSaldo(contaC.getSaldo() + valorDeposito);
-                                                    }
+                                                    depositarCC(contaC);
                                                 }
                                                 else if(menuContaC.get(opcaoMenu) == 3) {
-                                                    String valorSacar = JOptionPane.showInputDialog(null, "Valor do Saque", "Sacar", 1);
-                                                    float valorSaque = Float.parseFloat(valorSacar);
-                                                    if (valorSaque <= contaC.getSaldo()) {
-                                                        contaC.setSaldo(contaC.getSaldo() - valorSaque);
-                                                    } else if (valorSaque <= contaC.getSaldo() + contaC.getChequeEspecial()) {
-                                                        contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorSaque)  + contaC.getSaldo());
-                                                        contaC.setSaldo(contaC.getSaldo() - valorSaque);
-                                                        
-                                                    }
-                                                    else {
-                                                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                                                    }
+                                                    sacarCC(contaC);
                                                 }
                                                 else if(menuContaC.get(opcaoMenu) == 4) {
-                                                    int tipoContaDestino = JOptionPane.showOptionDialog(null, 
-                                                    "Tipo da conta do destinatário:\n1 - Conta Corrente\n2 - Conta Poupança", "Tipo da conta", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
-                                                    String numContaDestino = JOptionPane.showInputDialog("Número da conta: ");
-                                                    String agContaDestino = JOptionPane.showInputDialog("Número da agência: ");
-                                                    String valorTr = JOptionPane.showInputDialog("Valor que deseja transferir: ");
-                                                    float valorTransferir = Float.parseFloat(valorTr);
-                                                    if (opcoesTipo.get(tipoContaDestino) == 1) {
-                                                        for (ContaCorrente contaDestino : contasC) {
-                                                            if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                                                                if (valorTransferir <= contaC.getSaldo()) {
-                                                                    contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                                                                    tranferirParaContaC(contaDestino, valorTransferir);
-                                                                }
-                                                                else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
-                                                                    contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
-                                                                    contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                                                                    tranferirParaContaC(contaDestino, valorTransferir);
-                                                                    
-                                                                } else {
-                                                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                                                                }
-                                                            }
-                                                        }
-                                                    } else if (opcoesTipo.get(tipoContaDestino) == 2) {
-                                                        for (ContaPoupanca contaDestino : contasP) {
-                                                            if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                                                                
-                                                                if (valorTransferir <= contaC.getSaldo()) {
-                                                                    contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                                                                    contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                                                                } else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
-                                                                    contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
-                                                                    contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                                                                    contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                                                                } else {
-                                                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                                                                }
-                                                            }    
-                                                        }
-                                                    }
-                                                    if (contaC.getQtTransferencia() >= 2) {
-                                                        contaC.setSaldo(contaC.getSaldo() - valorTransferir * 0.05f);
-                                                    }
-                                                    contaC.setQtTransferencia(contaC.getQtTransferencia() + 1);
+                                                    transferirCC(contaC);
                                                 }
                                             }
                                         }
@@ -201,51 +111,12 @@ public class App {
                                                     JOptionPane.showMessageDialog(null, "Saldo: " + contaP.getSaldo(), "titulo", 1);
                                                 }
                                                 else if(menuContaP.get(opcaoMenu) == 2) {
-                                                    String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
-                                                    float valorDeposito = Float.parseFloat(valorDep);
-                                                    contaP.setSaldo(contaP.getSaldo() + valorDeposito);
+                                                    depositarCP(contaP);
                                                 }
                                                 else if(menuContaP.get(opcaoMenu) == 3) {
-                                                    String valorSacar = JOptionPane.showInputDialog(null, "Valor do Saque", "Sacar", 1);
-                                                    float valorSaque = Float.parseFloat(valorSacar);
-                                                    if (valorSaque <= contaP.getSaldo()) {
-                                                        contaP.setSaldo(contaP.getSaldo() - valorSaque);
-                                                    }
-                                                    else {
-                                                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                                                    }
+                                                    sacarCP(contaP);
                                                 } else if(menuContaP.get(opcaoMenu) == 4) {
-                                                    int tipoContaDestino = JOptionPane.showOptionDialog(null, 
-                                                    "Tipo da conta do destinatário:\n1 - Conta Corrente\n2 - Conta Poupança", "Tipo da conta", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
-                                                    String numContaDestino = JOptionPane.showInputDialog("Número da conta: ");
-                                                    String agContaDestino = JOptionPane.showInputDialog("Número da agência: ");
-                                                    String valorTr = JOptionPane.showInputDialog("Valor que deseja transferir: ");
-                                                    float valorTransferir = Float.parseFloat(valorTr);
-
-                                                    if (opcoesTipo.get(tipoContaDestino) == 1) {
-                                                        for (ContaCorrente contaDestino : contasC) {
-                                                            if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                                                                if (valorTransferir <= contaP.getSaldo()) {
-                                                                    contaP.setSaldo(contaP.getSaldo() - valorTransferir);
-                                                                    tranferirParaContaC(contaDestino, valorTransferir);
-                                                                } else {
-                                                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    else if (opcoesTipo.get(tipoContaDestino) == 2) {
-                                                        for (ContaPoupanca contaDestino : contasP) {
-                                                            if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                                                                if (valorTransferir <= contaP.getSaldo()) {
-                                                                    contaP.setSaldo(contaP.getSaldo() - valorTransferir);
-                                                                    contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                                                                } else {
-                                                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                                                                }
-                                                            }
-                                                        }
-                                                    }
+                                                    transferirCP(contaP);
                                                 }
                                             }
                                         }
@@ -258,6 +129,7 @@ public class App {
             }
         }
     }
+
 
     private static void tranferirParaContaC(ContaCorrente contaDestino, float valorTransferir) {
         if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
@@ -302,8 +174,172 @@ public class App {
         JOptionPane.showMessageDialog(null, "Nome do cliente: " + nomeCliente + "\nCPF: " + cpfCliente + 
         "\nId: " + idCliente + "\nGuarde o ID para poder fazer login", "CADASTRO REALIZADO", JOptionPane.PLAIN_MESSAGE);
     }
+    private static void criarConta(Cliente cliente) {
+        List<Integer> opcoesTipo = new ArrayList<>();
+        opcoesTipo.add(1);
+        opcoesTipo.add(2);
+        //escolher o tipo de conta (corrente ou poupança)
+        Object[] opcoesArray = opcoesTipo.toArray();
+        int tipoConta = JOptionPane.showOptionDialog(null, 
+        "1 - Conta Corrente\n2 - Conta Poupança", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
+        if (opcoesTipo.get(tipoConta) == 1) {
+            //criarContaCorrente();
+            int numeroContaC = 10000 + (int) (Math.random() * 89999);
+            int agenciaContaC = 10 + (int) (Math.random() * 89);
+
+            ContaCorrente novaContaCorrente = new ContaCorrente(2000, cliente.getIdCliente(), numeroContaC, agenciaContaC, 0, 0);
+            JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\nID: " + cliente.getIdCliente() + "\n\nNúmero da conta: " + numeroContaC + "\nNúmero da agência: " + agenciaContaC,
+            "CONTA CORRENTE CRIADA", JOptionPane.PLAIN_MESSAGE);
+            contasC.add(novaContaCorrente);
+        }
+        else if (opcoesTipo.get(tipoConta) == 2) {
+            //criarContaPoupanca();
+            int numeroContaP = 10000 + (int) (Math.random() * 89999);
+            int agenciaContaP = 10 + (int) (Math.random() * 89);
+
+            ContaPoupanca novaContaPoupanca = new ContaPoupanca(cliente.getIdCliente(), numeroContaP, agenciaContaP, 0, 0.10f);
+            JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\nID: " + cliente.getIdCliente() + "\n\nNúmero da conta: " + numeroContaP + "\nNúmero da agência: " + agenciaContaP,
+            "CONTA POUPANÇA CRIADA", JOptionPane.PLAIN_MESSAGE);
+            contasP.add(novaContaPoupanca);
+        }
+    }
+
+    private static void depositarCC(ContaCorrente contaC) {//depósito em conta corrente
+        String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
+        float valorDeposito = Float.parseFloat(valorDep);
+        if (valorDeposito <= 2000 - contaC.getChequeEspecial()){
+            contaC.setChequeEspecial(contaC.getChequeEspecial() + valorDeposito);
+            contaC.setSaldo(contaC.getSaldo() + valorDeposito);
+        }
+        else {
+            float dif = 2000 - contaC.getChequeEspecial();
+            contaC.setChequeEspecial(contaC.getChequeEspecial() + dif);
+            contaC.setSaldo(contaC.getSaldo() + valorDeposito);
+        }
+    }
+
+    private static void depositarCP(ContaPoupanca contaP) {//depósito em conta poupança
+        String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
+        float valorDeposito = Float.parseFloat(valorDep);
+        contaP.setSaldo(contaP.getSaldo() + valorDeposito + valorDeposito * contaP.getRendimento());
+    }
+
+    private static void sacarCC(ContaCorrente contaC) {//saque de conta corrente
+        
+        String valorSacar = JOptionPane.showInputDialog(null, "Valor do Saque", "Sacar", 1);
+        float valorSaque = Float.parseFloat(valorSacar);
+        if (valorSaque <= contaC.getSaldo()) {
+            contaC.setSaldo(contaC.getSaldo() - valorSaque);
+        } else if (valorSaque <= contaC.getSaldo() + contaC.getChequeEspecial()) {
+            contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorSaque)  + contaC.getSaldo());
+            contaC.setSaldo(contaC.getSaldo() - valorSaque);
+            
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+        }
+    }
+    private static void sacarCP(ContaPoupanca contaP) {//saque de conta poupança
+        String valorSacar = JOptionPane.showInputDialog(null, "Valor do Saque", "Sacar", 1);
+        float valorSaque = Float.parseFloat(valorSacar);
+        if (valorSaque <= contaP.getSaldo()) {
+            contaP.setSaldo(contaP.getSaldo() - valorSaque);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+        }
+    }
+
+    private static void transferirCC(ContaCorrente contaC) { //transferir a partir da conta corrente
+        List<Integer> opcoesTipo = new ArrayList<>();
+        opcoesTipo.add(1);
+        opcoesTipo.add(2);
+        //escolher o tipo de conta (corrente ou poupança)
+        Object[] opcoesArray = opcoesTipo.toArray();
+        
+        int tipoContaDestino = JOptionPane.showOptionDialog(null, 
+        "Tipo da conta do destinatário:\n1 - Conta Corrente\n2 - Conta Poupança", "Tipo da conta", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        String numContaDestino = JOptionPane.showInputDialog("Número da conta: ");
+        String agContaDestino = JOptionPane.showInputDialog("Número da agência: ");
+        String valorTr = JOptionPane.showInputDialog("Valor que deseja transferir: ");
+        float valorTransferir = Float.parseFloat(valorTr);
+        if (opcoesTipo.get(tipoContaDestino) == 1) {
+            for (ContaCorrente contaDestino : contasC) {
+                if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
+                    if (valorTransferir <= contaC.getSaldo()) {
+                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
+                        tranferirParaContaC(contaDestino, valorTransferir);
+                    }
+                    else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
+                        contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
+                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
+                        tranferirParaContaC(contaDestino, valorTransferir);
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+                    }
+                }
+            }
+        } else if (opcoesTipo.get(tipoContaDestino) == 2) {
+            for (ContaPoupanca contaDestino : contasP) {
+                if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
+                    
+                    if (valorTransferir <= contaC.getSaldo()) {
+                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
+                        contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                    } else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
+                        contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
+                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
+                        contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+                    }
+                }    
+            }
+        }
+        if (contaC.getQtTransferencia() >= 2) {
+            contaC.setSaldo(contaC.getSaldo() - valorTransferir * 0.05f);
+        }
+        contaC.setQtTransferencia(contaC.getQtTransferencia() + 1);
+    }
+    private static void transferirCP(ContaPoupanca contaP) {//transferência a partir da conta poupança
+        List<Integer> opcoesTipo = new ArrayList<>();
+        opcoesTipo.add(1);
+        opcoesTipo.add(2);
+        //escolher o tipo de conta (corrente ou poupança)
+        Object[] opcoesArray = opcoesTipo.toArray();
+
+        int tipoContaDestino = JOptionPane.showOptionDialog(null, 
+        "Tipo da conta do destinatário:\n1 - Conta Corrente\n2 - Conta Poupança", "Tipo da conta", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        String numContaDestino = JOptionPane.showInputDialog("Número da conta: ");
+        String agContaDestino = JOptionPane.showInputDialog("Número da agência: ");
+        String valorTr = JOptionPane.showInputDialog("Valor que deseja transferir: ");
+        float valorTransferir = Float.parseFloat(valorTr);
+
+        if (opcoesTipo.get(tipoContaDestino) == 1) {
+            for (ContaCorrente contaDestino : contasC) {
+                if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
+                    if (valorTransferir <= contaP.getSaldo()) {
+                        contaP.setSaldo(contaP.getSaldo() - valorTransferir);
+                        tranferirParaContaC(contaDestino, valorTransferir);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+                    }
+                }
+            }
+        }
+        else if (opcoesTipo.get(tipoContaDestino) == 2) {
+            for (ContaPoupanca contaDestino : contasP) {
+                if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
+                    if (valorTransferir <= contaP.getSaldo()) {
+                        contaP.setSaldo(contaP.getSaldo() - valorTransferir);
+                        contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+                    }
+                }
+            }
+        }
+        contaP.setSaldo(contaP.getSaldo() - valorTransferir * 0.10f);
+    }
 }
-
-
-
-

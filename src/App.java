@@ -244,12 +244,14 @@ public class App {
         if (valorDeposito <= 2000 - contaC.getChequeEspecial()){
             contaC.setChequeEspecial(contaC.getChequeEspecial() + valorDeposito);
             contaC.setSaldo(contaC.getSaldo() + valorDeposito);
+            email.enviarNotificacao("Depositado", valorDeposito);
             
         }
         else {
             float dif = 2000 - contaC.getChequeEspecial();
             contaC.setChequeEspecial(contaC.getChequeEspecial() + dif);
             contaC.setSaldo(contaC.getSaldo() + valorDeposito);
+            email.enviarNotificacao("Depositado", valorDeposito);
         }
     }
 
@@ -269,9 +271,11 @@ public class App {
         float valorSaque = Float.parseFloat(valorSacar);
         if (valorSaque <= contaC.getSaldo()) {
             contaC.setSaldo(contaC.getSaldo() - valorSaque);
+            email.enviarNotificacao("Saque", valorSaque);
         } else if (valorSaque <= contaC.getSaldo() + contaC.getChequeEspecial()) {
             contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorSaque)  + contaC.getSaldo());
             contaC.setSaldo(contaC.getSaldo() - valorSaque);
+            email.enviarNotificacao("Saque", valorSaque);
             
         }
         else {
@@ -367,6 +371,7 @@ public class App {
                     if (valorTransferir <= contaP.getSaldo()) {
                         contaP.setSaldo(contaP.getSaldo() - valorTransferir);
                         tranferirParaContaC(contaDestino, valorTransferir);
+                        email.enviarNotificacao("Transferencia", valorTransferir);
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
                     }
@@ -379,6 +384,7 @@ public class App {
                     if (valorTransferir <= contaP.getSaldo()) {
                         contaP.setSaldo(contaP.getSaldo() - valorTransferir);
                         contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                        email.enviarNotificacao("Transferencia", valorTransferir);
                     } else {
                         JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
                     }

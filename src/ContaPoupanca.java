@@ -32,9 +32,9 @@ public class ContaPoupanca extends Conta {
         setSaldo(getSaldo() + valorDeposito + valorDeposito * getRendimento());
         
         if(getTipoNoti().equals("SMS")){
-            email.enviarNotificacao("Transferido ", valorDeposito);
+            email.enviarNotificacao("Depositado ", valorDeposito);
         }else if(getTipoNoti().equals("Email")){
-            sms.enviarNotificacao("Transferido ", valorDeposito);
+            sms.enviarNotificacao("Depositado ", valorDeposito);
         }
 
     }

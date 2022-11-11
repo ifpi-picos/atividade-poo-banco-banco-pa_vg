@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
 public class ContaCorrente extends Conta {
@@ -40,12 +37,24 @@ public class ContaCorrente extends Conta {
         if (valorDeposito <= 2000 - getChequeEspecial()){
             setChequeEspecial(getChequeEspecial() + valorDeposito);
             setSaldo(getSaldo() + valorDeposito);
+            if(getTipoNoti().equals("SMS")){
+                email.enviarNotificacao("Depositado ", valorDeposito);
+
+            }else if(getTipoNoti().equals("Email")){
+                sms.enviarNotificacao("Depositado ", valorDeposito);
+        }
         
         }
         else {
             float dif = 2000 - getChequeEspecial();
             setChequeEspecial(getChequeEspecial() + dif);
             setSaldo(getSaldo() + valorDeposito);
+            if(getTipoNoti().equals("SMS")){
+                email.enviarNotificacao("Depositado ", valorDeposito);
+
+            }else if(getTipoNoti().equals("Email")){
+                sms.enviarNotificacao("Depositado ", valorDeposito);
+        }
         }
     }
 

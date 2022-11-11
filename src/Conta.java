@@ -7,7 +7,8 @@ public abstract class Conta {
     private float saldo;
     private String tipoNoti = "SMS";
 
-
+    EnviarEmail email = new EnviarEmail();
+    EnviarSmS sms = new EnviarSmS();
 
 
     public Conta(int idCliente, int numeroConta, int agenciaConta, float saldo) {
@@ -69,6 +70,12 @@ public abstract class Conta {
         }
         else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+        }
+        if(getTipoNoti().equals("SMS")){
+            email.enviarNotificacao("Sacado", valorSaque);
+
+        }else if(getTipoNoti().equals("Email")){
+            sms.enviarNotificacao("Sacado", valorSaque);
         }
     }
 

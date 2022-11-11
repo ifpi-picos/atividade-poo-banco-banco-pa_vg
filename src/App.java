@@ -16,19 +16,13 @@ public class App {
         opcoesIniciais.add(1);
         opcoesIniciais.add(2);
         opcoesIniciais.add(3);
-        opcoesIniciais.add(4);
 
         int opcaoSelecionada = 1;
-        while (opcoesIniciais.get(opcaoSelecionada) != 4) {
+        while (opcoesIniciais.get(opcaoSelecionada) != 3) {
             opcaoSelecionada = exibirMenuInicial(opcoesIniciais);
 
             if (opcoesIniciais.get(opcaoSelecionada) == 1){ //cadastrar um cliente
                 cadastrarCliente();
-            }
-            else if(opcoesIniciais.get(opcaoSelecionada) == 3 ){
-                selecioarNotific();
-
-
             }
             else if (opcoesIniciais.get(opcaoSelecionada) == 2) { //realizar login do cliente
                 //telaLogin();
@@ -47,7 +41,7 @@ public class App {
                         int opcaoEscolhida = 1;
                         while (opcoes.get(opcaoEscolhida) != 3) {
                             opcaoEscolhida = JOptionPane.showOptionDialog(null,
-                            "1 - Criar conta\n2 - Acessar conta\n3 - Encerrar", cliente.getNome(), JOptionPane.OK_CANCEL_OPTION,
+                            "1 - Criar conta\n2 - Acessar conta\n3 - Fechar", cliente.getNome(), JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.PLAIN_MESSAGE, null, opcoesObject, null);
 
                             if (opcoes.get(opcaoEscolhida) == 1) { //criar uma conta
@@ -79,7 +73,7 @@ public class App {
                                             int opcaoMenu = 1;
                                             while (menuContaC.get(opcaoMenu) != 5) {
                                                 opcaoMenu = JOptionPane.showOptionDialog(null, 
-                                                "1 - ver saldo\n2 - Depositar\n3 - Sacar\n4 - Realizar transferência\n5 - Encerrar", "CONTA CORRENTE",
+                                                "1 - ver saldo\n2 - Depositar\n3 - Sacar\n4 - Realizar transferência\n5 - Voltar", "CONTA CORRENTE",
                                                 JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesMenu, opcoesMenu);     
                                                         
                                                 if (menuContaC.get(opcaoMenu) == 1) {
@@ -111,7 +105,7 @@ public class App {
                                             int opcaoMenu = 1;
                                             while (menuContaP.get(opcaoMenu) != 5) {
                                                 opcaoMenu = JOptionPane.showOptionDialog(null, 
-                                                "1 - ver saldo\n2 - Depositar\n3 - Sacar\n4 - Realizar transferência\n5 - Encerrar", "CONTA CORRENTE",
+                                                "1 - ver saldo\n2 - Depositar\n3 - Sacar\n4 - Realizar transferência\n5 - Voltar", "CONTA POUPANÇA",
                                                 JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesMenu, opcoesMenu);     
                                                         
                                                 if (menuContaP.get(opcaoMenu) == 1) {
@@ -153,38 +147,13 @@ public class App {
             return tipoNoti;
            
         }
-      
-
     }
-
-    private static void tranferirParaContaC(ContaCorrente contaDestino, float valorTransferir) {
-        if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
-            contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + valorTransferir);
-            contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-            if(selecioarNotific() == 1){ 
-             email.enviarNotificacao("Tranferido ", valorTransferir);
-            }
-            else {
-                sms.enviarNotificacao("Tranferido ", valorTransferir);
-            }
-        } else {
-            float dif = 2000 - contaDestino.getChequeEspecial();
-            contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + dif);
-            contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-        }
-    }
-
-   
-
-
-
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
         Object[] opcoesArray = opcoesIniciais.toArray();
         int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
-        "1 - Cadastrar Cliente\n2 - Login\n3 - Tipo de Notificação\n4- Encerrar", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
+        "1 - Cadastrar Cliente\n2 - Login\n3 - Encerrar", "INÍCIO", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);
         return opcaoSelecionada;
     }
-
 
     private static void cadastrarCliente() {
         String nomeCliente = JOptionPane.showInputDialog("Nome: ");
@@ -247,81 +216,26 @@ public class App {
     private static void depositarCC(ContaCorrente contaC) {//depósito em conta corrente
         String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
         float valorDeposito = Float.parseFloat(valorDep);
-        if (valorDeposito <= 2000 - contaC.getChequeEspecial()){
-            contaC.setChequeEspecial(contaC.getChequeEspecial() + valorDeposito);
-            contaC.setSaldo(contaC.getSaldo() + valorDeposito);
-            if(selecioarNotific() == 1){ 
-                email.enviarNotificacao("Depositado ", valorDeposito);
-               }
-               else {
-                   sms.enviarNotificacao("Depositado ", valorDeposito);
-               }
-            
-        }
-        else {
-            float dif = 2000 - contaC.getChequeEspecial();
-            contaC.setChequeEspecial(contaC.getChequeEspecial() + dif);
-            contaC.setSaldo(contaC.getSaldo() + valorDeposito);
-            if(selecioarNotific() == 1){ 
-                email.enviarNotificacao("Depositado ", valorDeposito);
-               }
-               else {
-                   sms.enviarNotificacao("Depositado ", valorDeposito);
-               }
-        }
+        contaC.depositar(valorDeposito);
     }
 
     private static void depositarCP(ContaPoupanca contaP) {//depósito em conta poupança
         String valorDep = JOptionPane.showInputDialog(null, "Valor do Deposito", "Depositar", 1);
         float valorDeposito = Float.parseFloat(valorDep);
-        contaP.setSaldo(contaP.getSaldo() + valorDeposito + valorDeposito * contaP.getRendimento());
-        if(selecioarNotific() == 1){ 
-            email.enviarNotificacao("Depositado ", valorDeposito);
-           }
-           else {
-               sms.enviarNotificacao("Depositado ", valorDeposito);
-           }
+        contaP.depositar(valorDeposito);
     }
-
 
 
     private static void sacarCC(ContaCorrente contaC) {//saque de conta corrente
         
         String valorSacar = JOptionPane.showInputDialog(null, "Valor do Saque", "Sacar", 1);
         float valorSaque = Float.parseFloat(valorSacar);
-        if (valorSaque <= contaC.getSaldo()) {
-            contaC.setSaldo(contaC.getSaldo() - valorSaque);
-            email.enviarNotificacao("Saque ", valorSaque);
-        } else if (valorSaque <= contaC.getSaldo() + contaC.getChequeEspecial()) {
-            contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorSaque)  + contaC.getSaldo());
-            contaC.setSaldo(contaC.getSaldo() - valorSaque);
-            if(selecioarNotific() == 1){ 
-                email.enviarNotificacao("Sacado ", valorSaque);
-               }
-               else {
-                   sms.enviarNotificacao("Sacado ", valorSaque);
-               }
-            
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-        }
+        contaC.sacar(valorSaque);
     }
     private static void sacarCP(ContaPoupanca contaP) {//saque de conta poupança
         String valorSacar = JOptionPane.showInputDialog(null, "Valor do Saque", "Sacar", 1);
         float valorSaque = Float.parseFloat(valorSacar);
-        if (valorSaque <= contaP.getSaldo()) {
-            contaP.setSaldo(contaP.getSaldo() - valorSaque);
-            if(selecioarNotific() == 1){ 
-                email.enviarNotificacao("Sacado ", valorSaque);
-               }
-               else {
-                   sms.enviarNotificacao("Sacado ", valorSaque);
-               }
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-        }
+        contaP.sacar(valorSaque);
     }
 
     private static void transferirCC(ContaCorrente contaC) { //transferir a partir da conta corrente
@@ -340,61 +254,16 @@ public class App {
         if (opcoesTipo.get(tipoContaDestino) == 1) {
             for (ContaCorrente contaDestino : contasC) {
                 if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                    if (valorTransferir <= contaC.getSaldo()) {
-                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                        tranferirParaContaC(contaDestino, valorTransferir);
-                        email.enviarNotificacao("Transferido ", valorTransferir);
-                    }
-                    else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
-                        contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
-                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                        tranferirParaContaC(contaDestino, valorTransferir);
-                        if(selecioarNotific() == 1){ 
-                            email.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                           else {
-                               sms.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                        
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                    }
+                    contaC.transferirParaContaCorrente(valorTransferir, contaDestino);
                 }
             }
         } else if (opcoesTipo.get(tipoContaDestino) == 2) {
             for (ContaPoupanca contaDestino : contasP) {
                 if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                    
-                    if (valorTransferir <= contaC.getSaldo()) {
-                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                        contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                        if(selecioarNotific() == 1){ 
-                            email.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                           else {
-                               sms.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                    } else if (valorTransferir <= contaC.getSaldo() + contaC.getChequeEspecial()) {
-                        contaC.setChequeEspecial(contaC.getChequeEspecial() - (valorTransferir) + contaC.getSaldo());
-                        contaC.setSaldo(contaC.getSaldo() - valorTransferir);
-                        contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                        if(selecioarNotific() == 1){ 
-                            email.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                           else {
-                               sms.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                    }
+                    contaC.transferirParaContaPoupanca(valorTransferir, contaDestino);
                 }    
             }
         }
-        if (contaC.getQtTransferencia() >= 2) {
-            contaC.setSaldo(contaC.getSaldo() - valorTransferir * 0.05f);
-            
-        }
-        contaC.setQtTransferencia(contaC.getQtTransferencia() + 1);
     }
     private static void transferirCP(ContaPoupanca contaP) {//transferência a partir da conta poupança
         List<Integer> opcoesTipo = new ArrayList<>();
@@ -413,39 +282,16 @@ public class App {
         if (opcoesTipo.get(tipoContaDestino) == 1) {
             for (ContaCorrente contaDestino : contasC) {
                 if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                    if (valorTransferir <= contaP.getSaldo()) {
-                        contaP.setSaldo(contaP.getSaldo() - valorTransferir);
-                        tranferirParaContaC(contaDestino, valorTransferir);
-                        if(selecioarNotific() == 1){ 
-                            email.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                           else {
-                               sms.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                    }
+                    contaP.transferirParaContaCorrente(valorTransferir, contaDestino);
                 }
             }
         }
         else if (opcoesTipo.get(tipoContaDestino) == 2) {
             for (ContaPoupanca contaDestino : contasP) {
                 if(contaDestino.getNumeroConta() == Integer.parseInt(numContaDestino) && contaDestino.getAgenciaConta() == Integer.parseInt(agContaDestino)) {
-                    if (valorTransferir <= contaP.getSaldo()) {
-                        contaP.setSaldo(contaP.getSaldo() - valorTransferir);
-                        contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-                        if(selecioarNotific() == 1){ 
-                            email.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                           else {
-                               sms.enviarNotificacao("Tranferido ", valorTransferir);
-                           }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
-                    }
+                    contaP.transferirParaContaPoupanca(valorTransferir, contaDestino);
                 }
             }
         }
-        contaP.setSaldo(contaP.getSaldo() - valorTransferir * 0.10f);
     }
 }

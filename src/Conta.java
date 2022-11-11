@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 public abstract class Conta {
     private int idCliente;
     private int numeroConta;
@@ -41,14 +43,23 @@ public abstract class Conta {
         this.saldo = saldo;
     }
 
-    public void depositar(){
-    /* deve acrescentar ao saldo*/
-
+    public void depositar(float valorDeposito){
 
     }
-    public void sacar(){
-        /*deve retirar do saldo, digite o valor a  ser sacado(confere se o valor  é maior que o saldo)*/
-    
+    public void sacar(float valorSaque){
+        if (valorSaque <= getSaldo()) {
+            setSaldo(getSaldo() - valorSaque);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
+        }
+    }
+
+    public void transferirParaContaCorrente(float valorTransferir, ContaCorrente contaC) {
+
+    }
+    public void transferirParaContaPoupanca(float valorTransferir, ContaPoupanca contaDestino) {
+
     }
     
 }

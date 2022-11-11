@@ -5,15 +5,32 @@ public abstract class Conta {
     private int numeroConta;
     private int agenciaConta;
     private float saldo;
+    private String tipoNoti = "SMS";
+
+
+
 
     public Conta(int idCliente, int numeroConta, int agenciaConta, float saldo) {
         this.idCliente = idCliente;
         this.numeroConta = numeroConta;
         this.agenciaConta = agenciaConta;
         this.saldo = saldo;
+    
     }
 
     
+    public String getTipoNoti() {
+        return tipoNoti;
+    }
+
+
+
+
+    public void setTipoNoti(String tipoNoti) {
+        this.tipoNoti = tipoNoti;
+    }
+
+
     public int getIdCliente() {
         return idCliente;
     }
@@ -61,5 +78,9 @@ public abstract class Conta {
     public void transferirParaContaPoupanca(float valorTransferir, ContaPoupanca contaDestino) {
 
     }
+
+
+  
+   
     
 }

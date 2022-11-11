@@ -1,9 +1,16 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 public class ContaCorrente extends Conta {
 
     private float chequeEspecial;
     private int qtTransferencia;//contador da quantidade de transferências realizadas
+
+    EnviarEmail email = new EnviarEmail();
+    EnviarSmS sms = new EnviarSmS();
+    
 
     public ContaCorrente(float chequeEspecial, int idCliente, int numeroConta, int agenciaConta, float saldo, int qtTransferencia) {
         super(idCliente, numeroConta, agenciaConta, saldo);
@@ -33,6 +40,7 @@ public class ContaCorrente extends Conta {
         if (valorDeposito <= 2000 - getChequeEspecial()){
             setChequeEspecial(getChequeEspecial() + valorDeposito);
             setSaldo(getSaldo() + valorDeposito);
+        
         }
         else {
             float dif = 2000 - getChequeEspecial();
@@ -45,13 +53,21 @@ public class ContaCorrente extends Conta {
     public void sacar(float valorSaque) {
         if (valorSaque <= getSaldo()) {
             setSaldo(getSaldo() - valorSaque);
-        } else if (valorSaque <= getSaldo() + getChequeEspecial()) {
+
+            if(getTipoNoti().equals("SMS")){
+                email.enviarNotificacao("Sacado", valorSaque);
+
+            }else if(getTipoNoti().equals("Email")){
+                sms.enviarNotificacao("Sacado", valorSaque);
+        }
+         else if (valorSaque <= getSaldo() + getChequeEspecial()) {
             setChequeEspecial(getChequeEspecial() - (valorSaque)  + getSaldo());
             setSaldo(getSaldo() - valorSaque);
         }
         else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
         }
+         }
     }
 
     @Override
@@ -62,11 +78,26 @@ public class ContaCorrente extends Conta {
             if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
                 contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + valorTransferir);
                 contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
-            } else {
+
+                if(getTipoNoti().equals("SMS")){
+                    email.enviarNotificacao("Transferido", valorTransferir);
+                }else if(getTipoNoti().equals("Email")){
+                    sms.enviarNotificacao("Transferido", valorTransferir);}
+                    
+                    
+            else {
                 float dif = 2000 - contaDestino.getChequeEspecial();
                 contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + dif);
                 contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                if(getTipoNoti().equals("SMS")){
+                    email.enviarNotificacao("Transferido ", valorTransferir);
+                }else if(getTipoNoti().equals("Email")){
+                    sms.enviarNotificacao("Transferido ", valorTransferir);
+
             }
+                
+            }
+             }
         }
         else if (valorTransferir <= getSaldo() + getChequeEspecial()) {
             setChequeEspecial(getChequeEspecial() - (valorTransferir) + getSaldo());
@@ -74,10 +105,23 @@ public class ContaCorrente extends Conta {
             if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
                 contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + valorTransferir);
                 contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                if(getTipoNoti().equals("SMS")){
+                    email.enviarNotificacao("Transferido ", valorTransferir);
+                }else if(getTipoNoti().equals("Email")){
+                    sms.enviarNotificacao("Transferido ", valorTransferir);
+
+            }
             } else {
                 float dif = 2000 - contaDestino.getChequeEspecial();
                 contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + dif);
                 contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+
+                if(getTipoNoti().equals("SMS")){
+                    email.enviarNotificacao("Transferido ", valorTransferir);
+                }else if(getTipoNoti().equals("Email")){
+                    sms.enviarNotificacao("Transferido ", valorTransferir);
+                }
+             
             }
             
         } else {
@@ -96,10 +140,23 @@ public class ContaCorrente extends Conta {
         if (valorTransferir <= getSaldo()) {
             setSaldo(getSaldo() - valorTransferir);
             contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+            if(getTipoNoti().equals("SMS")){
+                email.enviarNotificacao("Transferido ", valorTransferir);
+            }else if(getTipoNoti().equals("Email")){
+                sms.enviarNotificacao("Transferido ", valorTransferir);
+            }
+           
         } else if (valorTransferir <= getSaldo() + getChequeEspecial()) {
             setChequeEspecial(getChequeEspecial() - (valorTransferir) + getSaldo());
             setSaldo(getSaldo() - valorTransferir);
             contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+            if(getTipoNoti().equals("SMS")){
+                email.enviarNotificacao("Transferido ", valorTransferir);
+            }else if(getTipoNoti().equals("Email")){
+                sms.enviarNotificacao("Transferido ", valorTransferir);
+            }
+
+         
         } else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
         }
@@ -113,4 +170,5 @@ public class ContaCorrente extends Conta {
     
 
 
-}
+ }
+

@@ -4,6 +4,10 @@ public class ContaPoupanca extends Conta {
 
     private float rendimento;
 
+
+    EnviarEmail email = new EnviarEmail();
+    EnviarSmS sms = new EnviarSmS();
+
     public ContaPoupanca(int idCliente, int numeroConta, int agenciaConta, float saldo, float rendimento) {
         super(idCliente, numeroConta, agenciaConta, saldo);
         this.rendimento = rendimento;
@@ -26,6 +30,12 @@ public class ContaPoupanca extends Conta {
     @Override
     public void depositar(float valorDeposito){
         setSaldo(getSaldo() + valorDeposito + valorDeposito * getRendimento());
+        
+        if(getTipoNoti().equals("SMS")){
+            email.enviarNotificacao("Transferido ", valorDeposito);
+        }else if(getTipoNoti().equals("Email")){
+            sms.enviarNotificacao("Transferido ", valorDeposito);
+        }
 
     }
 
@@ -36,10 +46,20 @@ public class ContaPoupanca extends Conta {
             if (valorTransferir <= 200 - contaDestino.getChequeEspecial()) {
                 contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + valorTransferir);
                 contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                if(getTipoNoti().equals("SMS")){
+                    email.enviarNotificacao("Transferido ", valorTransferir);
+                }else if(getTipoNoti().equals("Email")){
+                    sms.enviarNotificacao("Transferido ", valorTransferir);
+                }
             } else {
                 float dif = 2000 - contaDestino.getChequeEspecial();
                 contaDestino.setChequeEspecial(contaDestino.getChequeEspecial() + dif);
                 contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+                if(getTipoNoti().equals("SMS")){
+                    email.enviarNotificacao("Transferido ", valorTransferir);
+                }else if(getTipoNoti().equals("Email")){
+                    sms.enviarNotificacao("Transferido ", valorTransferir);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
@@ -54,6 +74,11 @@ public class ContaPoupanca extends Conta {
         if (valorTransferir <= getSaldo()) {
             setSaldo(getSaldo() - valorTransferir);
             contaDestino.setSaldo(contaDestino.getSaldo() + valorTransferir);
+            if(getTipoNoti().equals("SMS")){
+                email.enviarNotificacao("Transferido ", valorTransferir);
+            }else if(getTipoNoti().equals("Email")){
+                sms.enviarNotificacao("Transferido ", valorTransferir);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente", "ERRO", 0);
         }

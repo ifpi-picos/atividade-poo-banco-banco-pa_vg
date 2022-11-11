@@ -132,22 +132,12 @@ public class App {
     }
 
 
-    private static int selecioarNotific(){
-        List<Integer> opcoesNoti = new ArrayList<>();
-        opcoesNoti.add(1);
-        opcoesNoti.add(2);
-        //escolher o tipo de conta (corrente ou poupança)
-        Object[] opcoesArray = opcoesNoti.toArray();
-        int tipoNoti = JOptionPane.showOptionDialog(null, 
-        "1 - Email\n2 - SMS", "Selecione", JOptionPane.CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoesArray, opcoesArray);                
-        if (opcoesNoti.get(tipoNoti) == 1) {
-           return tipoNoti;
+    private static void selecioarNotifi(){
+        String tipoNoti = JOptionPane.showInputDialog("Qual o tipo de notificaçã: ");
+
+          
         }
-        else {
-            return tipoNoti;
-           
-        }
-    }
+    
     private static int exibirMenuInicial(List<Integer> opcoesIniciais) {
         Object[] opcoesArray = opcoesIniciais.toArray();
         int opcaoSelecionada = JOptionPane.showOptionDialog(null, 
@@ -155,11 +145,15 @@ public class App {
         return opcaoSelecionada;
     }
 
+
+
     private static void cadastrarCliente() {
         String nomeCliente = JOptionPane.showInputDialog("Nome: ");
         String cpfCliente = JOptionPane.showInputDialog("CPF: ");
         String email = JOptionPane.showInputDialog("Digite seu Email: ");
         String telefone = JOptionPane.showInputDialog("Digite seu telefone");
+        selecioarNotifi();
+
 
         int idCliente;
         do {
